@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-	<meta charset="UTF-8">
+  <meta charset="utf-8">
 	<style>
       #map {
         width: 99%;
-        height: 500px;
+        height: 300px;
 		border: 1px solid black;
+		/* If we want to set image on load*/
+		/*
 		background-color: #CCC;
-      }
+		background-image:url('pic01.png');
+		background-repeat:no-repeat;
+		background-position:center;
+		*/
+		visibility:hidden;
+		}
+		
     </style>
 	<!-- Adding Google map API -->
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
@@ -42,8 +50,8 @@
 		function drawMap(coordLatLng) {
 			/* Reference to the div that the map will be loaded into */
 			var mapCanvas = document.getElementById('map');
-			document.getElementById('map').style.display = 'block';
-			
+			/* Setting visibility */
+			document.getElementById("map").style.visibility = "visible";
 			/* Create a custom styled map */
 			var styledMap = new google.maps.StyledMapType(styles,{name: "Corporate Map"});
 
@@ -93,8 +101,8 @@
 						drawMap(coordLatLng);
 					
 					} else {
-						window.alert("Не можна визначити Ваше місце. Вкажіть інші дані");
 						console.warn('ERROR method getCustomLocation() error status:' + status);
+						alert('Change your request, please');
 					}
 				}
 			);
@@ -107,6 +115,7 @@
 				navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError, positionOptions);
 			} else {
 				console.warn('ERROR method getLocation() (navigator.geolocation object == null)');
+				alert('Determining the location is not supported by your browser');
 			}
 		}
 		/* getCurrentPosition() options*/
@@ -130,19 +139,14 @@
 		};
 		/* getCurrentPosition() error callback*/
 		function getPositionError(err) {
-		  window.alert("Не можна визначити Ваше місце. Введіть дані для пошуку");
 		  console.warn('ERROR(' + err.code + '): ' + err.message);
+		  alert('Determining the location is not supported by your browser');
 		};
-		
-		function hideMap(){
-			document.getElementById('map').style.display = 'none';
-		}
-		
 		/**********************************************************************************************************/
 	</script>
   </head>
-  <body onload="hideMap();">
-	 <div id="map"></div>
+  <body>
+	 <div id="map" ></div>
 	 <div id="get_position">
 		<input type="button" value="Get location" onclick="getLocation()"/>
 	 </div>
